@@ -17,6 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LobbyScene.unity
     guid: c2d161ae860dd204daa7172a069f7ed6
+  - enabled: 1
+    path: Assets/Scenes/GameScene.unity
+    guid: 21f2e0a6e68440648add11037c946802
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02

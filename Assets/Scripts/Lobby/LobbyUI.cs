@@ -85,8 +85,25 @@ public class LobbyUI : MonoBehaviour
 
     private void OnStartClicked()
     {
-        SceneManager.LoadScene("GameScene");
+        // Her oyun baþlangýcýnda temizle
+       // NetworkGameManager.Instance.ResetGame();
+        // Tüm oyuncularla birlikte sahne geçiþi
+        NetworkManager.Singleton.SceneManager.OnLoadComplete += OnSceneLoaded;
+        NetworkManager.Singleton.SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
     }
+
+    private void OnSceneLoaded(ulong clientId, string sceneName, LoadSceneMode mode)
+    {
+        if (!NetworkManager.Singleton.IsHost) return;
+        if (sceneName != "GameScene") return;
+
+        // Sadece host sahneye geçtiðinde oyunu baþlat
+        NetworkGameManager.Instance.StartGameServerRpc();
+
+        // Event'i temizle
+        NetworkManager.Singleton.SceneManager.OnLoadComplete -= OnSceneLoaded;
+    }
+
 
     private void OnBackClicked()
     {

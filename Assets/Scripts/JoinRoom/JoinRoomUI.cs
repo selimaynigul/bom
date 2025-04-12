@@ -12,11 +12,13 @@ public class JoinRoomUI : MonoBehaviour
     public Button joinButton;
     public Button backButton;
 
+    public GameObject loadingPanel; // UI'da görünür hale getireceðiz
+
     private void Start()
     {
-
         joinButton.onClick.AddListener(JoinRoom);
         backButton.onClick.AddListener(() => SceneManager.LoadScene("MainMenu"));
+        loadingPanel.SetActive(false); // baþlangýçta kapalý
     }
 
     private async void JoinRoom()
@@ -30,14 +32,18 @@ public class JoinRoomUI : MonoBehaviour
             return;
         }
 
+        // UI kilitle
+        joinButton.interactable = false;
+        backButton.interactable = false;
+        loadingPanel.SetActive(true);
+
         LocalPlayerData.PlayerName = playerName;
         LocalPlayerData.RequestedRoomCode = roomCode;
 
         // Relay baðlantýsý
         await RelayManager.JoinRelay(roomCode);
 
-        // Odaya baðlandýktan sonra sahneye geç
+        // Sahneye geç
         SceneManager.LoadScene("LobbyScene");
     }
-
 }
